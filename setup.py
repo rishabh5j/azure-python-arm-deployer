@@ -18,7 +18,7 @@ setuptools.setup(
     description="Deployer package to deploy or delete Azure resources based on ARM templates",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/rishabh5j/azure-python-arm-deployer",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
