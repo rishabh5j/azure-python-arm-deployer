@@ -3,7 +3,6 @@ from distutils.util import convert_path
 
 DEPENDENCIES = [
     "azure-identity",
-    "pkg-resources",
     "azure-mgmt-resource"
 ]
 
@@ -12,7 +11,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="azure_python_arm_deployer", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Rishabh Jain",
     author_email="rijain@microsoft.com",
     description="Deployer package to deploy or delete Azure resources based on ARM templates",
