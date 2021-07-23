@@ -50,12 +50,12 @@ class ArmTemplateDeployer:
 
         # build template and parameters as json
         template_path = pkg_resources.resource_filename(
-            "azure_arm_deployer", TEMPLATE_PATH.format(template_name=template_name))
+            "azure_python_arm_deployer", TEMPLATE_PATH.format(template_name=template_name))
         with open(template_path, "r") as template_file_fd:
             template = json.load(template_file_fd)
 
         parameter_path = pkg_resources.resource_filename(
-            "azure_arm_deployer", PARAMETER_FILE_PATH.format(template_name=template_name))
+            "azure_python_arm_deployer", PARAMETER_FILE_PATH.format(template_name=template_name))
         with open(parameter_path, "r") as parameter_path_fd:
             parameters = json.load(parameter_path_fd)["parameters"]
 
