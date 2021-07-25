@@ -11,7 +11,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="azure_python_arm_deployer", # Replace with your own username
-    version="0.0.2",
+    version="0.0.3",
     author="Rishabh Jain",
     author_email="rijain@microsoft.com",
     description="Deployer package to deploy or delete Azure resources based on ARM templates",

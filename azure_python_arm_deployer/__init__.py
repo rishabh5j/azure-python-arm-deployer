@@ -82,7 +82,7 @@ class ArmTemplateDeployer:
             raise Exception("Deployment not complete after wait period also.")
 
         # return result as operation complete
-        return deployment_async_operation.result
+        return deployment_async_operation.result()
 
     def delete(self, deployment_name = None):
         if not deployment_name:
@@ -100,4 +100,4 @@ class ArmTemplateDeployer:
             raise Exception("Deletion not complete after wait period also.")
 
         # return result as operation complete
-        return deployment_async_operation.result
+        return deployment_async_operation.result()
