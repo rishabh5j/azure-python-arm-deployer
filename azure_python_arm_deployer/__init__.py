@@ -15,7 +15,7 @@ class ArmTemplateDeployer:
     """Deployer class to be initialized with subscription_id, resource_group_name,
     resource_group_location
     """
-    def __init__(self, subscription_id, resource_group_name, resource_group_location):
+    def __init__(self, resource_group_name, resource_group_location, subscription_id = None):
         """Initializes ArmDeployerClass for consuming ARM templates
 
         :param subscription_id: Subscription ID
@@ -39,7 +39,7 @@ class ArmTemplateDeployer:
             self.__credentials, self.subscription_id)
         self.last_deployment_id = None
 
-    def deploy(self, template_name, deployment_mode = DeploymentMode.INCREMENTAL):
+    def deploy(self, template_name, deployment_mode = DeploymentMode.incremental):
         # Create or Update resource group before Deploying template
         self.client.resource_groups.create_or_update(
             self.resource_group_name,
@@ -68,8 +68,8 @@ class ArmTemplateDeployer:
         # create deployment name dynamically.
         self.last_deployment_id = f'{template_name}-{datetime.datetime.now().strftime("%m%d%Y")}-{random.getrandbits(32)}'
 
-        # returns LROPoller of type 
-        # https://docs.microsoft.com/en-us/python/api/msrest/msrest.polling.lropoller?view=azure-python
+        """ returns LROPoller of type 
+        `LRO poller class <https://docs.microsoft.com/en-us/python/api/msrest/msrest.polling.lropoller?view=azure-python>`"""
         deployment_async_operation = self.client.deployments.begin_create_or_update(
             self.resource_group_name,
             f"{template_name}-deployment",
