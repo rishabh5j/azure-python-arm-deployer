@@ -15,7 +15,7 @@ class ArmTemplateDeployer:
     """Deployer class to be initialized with subscription_id, resource_group_name,
     resource_group_location
     """
-    def __init__(self, subscription_id, resource_group_name, resource_group_location):
+    def __init__(self, resource_group_name, resource_group_location, subscription_id = None):
         """Initializes ArmDeployerClass for consuming ARM templates
 
         :param subscription_id: Subscription ID
@@ -39,7 +39,7 @@ class ArmTemplateDeployer:
             self.__credentials, self.subscription_id)
         self.last_deployment_id = None
 
-    def deploy(self, template_name, deployment_mode = DeploymentMode.INCREMENTAL):
+    def deploy(self, template_name, deployment_mode = DeploymentMode.incremental):
         # Create or Update resource group before Deploying template
         self.client.resource_groups.create_or_update(
             self.resource_group_name,
@@ -50,12 +50,12 @@ class ArmTemplateDeployer:
 
         # build template and parameters as json
         template_path = pkg_resources.resource_filename(
-            "azure_arm_deployer", TEMPLATE_PATH.format(template_name=template_name))
+            "azure_python_arm_deployer", TEMPLATE_PATH.format(template_name=template_name))
         with open(template_path, "r") as template_file_fd:
             template = json.load(template_file_fd)
 
         parameter_path = pkg_resources.resource_filename(
-            "azure_arm_deployer", PARAMETER_FILE_PATH.format(template_name=template_name))
+            "azure_python_arm_deployer", PARAMETER_FILE_PATH.format(template_name=template_name))
         with open(parameter_path, "r") as parameter_path_fd:
             parameters = json.load(parameter_path_fd)["parameters"]
 
@@ -68,8 +68,8 @@ class ArmTemplateDeployer:
         # create deployment name dynamically.
         self.last_deployment_id = f'{template_name}-{datetime.datetime.now().strftime("%m%d%Y")}-{random.getrandbits(32)}'
 
-        # returns LROPoller of type 
-        # https://docs.microsoft.com/en-us/python/api/msrest/msrest.polling.lropoller?view=azure-python
+        """ returns LROPoller of type 
+        `LRO poller class <https://docs.microsoft.com/en-us/python/api/msrest/msrest.polling.lropoller?view=azure-python>`"""
         deployment_async_operation = self.client.deployments.begin_create_or_update(
             self.resource_group_name,
             f"{template_name}-deployment",
@@ -82,7 +82,7 @@ class ArmTemplateDeployer:
             raise Exception("Deployment not complete after wait period also.")
 
         # return result as operation complete
-        return deployment_async_operation.result
+        return deployment_async_operation.result()
 
     def delete(self, deployment_name = None):
         if not deployment_name:
@@ -100,4 +100,4 @@ class ArmTemplateDeployer:
             raise Exception("Deletion not complete after wait period also.")
 
         # return result as operation complete
-        return deployment_async_operation.result
+        return deployment_async_operation.result()
